@@ -1,0 +1,119 @@
+name: Move Issue to In Review
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  move-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move linked issue to "In Review"
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.BRANCHFLOW_PAT }}
+          script: |
+            const orgLogin = context.repo.owner;
+            const projectNumber = 1;
+            const fieldName = "Status";
+            const targetStatus = "In Review";
+
+            // Extract linked issue number from PR body (Closes #X)
+            const prBody = context.payload.pull_request.body || "";
+            const match = prBody.match(/#(\d+)/);
+
+            if (!match) {
+              console.log("No linked issue found in PR body.");
+              return;
+            }
+
+            const issueNumber = parseInt(match[1], 10);
+
+            // Get issue node ID
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber
+            });
+
+            const issueNodeId = issue.data.node_id;
+
+            // --- same ProjectV2 lookup logic as your working assign workflow ---
+            const projectQuery = `
+              query($org: String!, $number: Int!) {
+                organization(login: $org) {
+                  projectV2(number: $number) {
+                    id
+                    fields(first: 50) {
+                      nodes {
+                        ... on ProjectV2SingleSelectField {
+                          id
+                          name
+                          options { id name }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const projectResp = await github.graphql(projectQuery, {
+              org: orgLogin,
+              number: projectNumber,
+            });
+
+            const project = projectResp.organization.projectV2;
+            const statusField = project.fields.nodes.find(f => f?.name === fieldName);
+            const statusOption = statusField.options.find(o => o.name === targetStatus);
+
+            const itemQuery = `
+              query($id: ID!) {
+                node(id: $id) {
+                  ... on Issue {
+                    projectItems(first: 50) {
+                      nodes {
+                        id
+                        project {
+                          ... on ProjectV2 { number }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const itemResp = await github.graphql(itemQuery, { id: issueNodeId });
+            const projectItem = itemResp.node.projectItems.nodes.find(
+              n => n.project.number === projectNumber
+            );
+
+            if (!projectItem) {
+              console.log("Issue not in project.");
+              return;
+            }
+
+            const mutation = `
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: $projectId,
+                    itemId: $itemId,
+                    fieldId: $fieldId,
+                    value: { singleSelectOptionId: $optionId }
+                  }
+                ) {
+                  projectV2Item { id }
+                }
+              }
+            `;
+
+            await github.graphql(mutation, {
+              projectId: project.id,
+              itemId: projectItem.id,
+              fieldId: statusField.id,
+              optionId: statusOption.id,
+            });
+
+            console.log(`Moved issue #${issueNumber} to In Review.`);

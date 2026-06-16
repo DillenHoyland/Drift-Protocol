@@ -1,0 +1,339 @@
+/*bring in required fonts*/
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap");
+
+/*remove the default values*/
+* {
+  /*change margin*/
+  margin: 0;
+  /*change padding*/
+  padding: 0;
+  /*make sure it fit the screen perfectly*/
+  box-sizing: border-box;
+}
+
+/*setting up color options to be reused*/
+:root {
+  /*color for the background*/
+  --bg-deep: #0a0f1a;
+  /*color for the header and result box values*/
+  --cyan: #00ff66;
+  /*unused*/
+  --cyan-dark: #00aa44;
+  /*color for the header sec background*/
+  --glass-bg: rgba(10, 20, 15, 0.65);
+  /*color for the header sec border and sep*/
+  --glass-bdr: rgba(0, 255, 100, 0.25);
+  /*color for the tags, labels and hints*/
+  --text-dim: rgba(100, 180, 120, 0.7);
+}
+
+/*styling for the body*/
+html,
+body {
+  /* NOTE: Width/Height removed to prevent stretching the whole PHP page */
+  /*font for the body*/
+  font-family: "Share Tech Mono", monospace;
+}
+
+/*computer scanlines like horizontal lines above the body*/
+/* FIX: Changed to absolute so it only covers the dice wrapper */
+#threejs-dice-wrapper::before {
+  /*an empty element*/
+  content: "";
+  /*position is absolute for the element*/
+  position: absolute;
+  /*stretch the with of the screen*/
+  inset: 0;
+  /*make sure the click roll works inside the heade sec too*/
+  pointer-events: none;
+  /*setting up a linear gradiant pattern*/
+  background: repeating-linear-gradient(
+    /*these are horixontal lines, let first 2 pixels br transparent,
+    then from 2px to 4px be slightly green and with a set opacityand repeat*/
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 100, 0.03) 2px,
+    rgba(0, 255, 100, 0.03) 4px
+  );
+  /*putting this above eerything*/
+  z-index: 1000;
+}
+
+/*grid background to merge with the scanelines for the scifi look*/
+/* FIX: Changed to absolute so it only covers the dice wrapper */
+#threejs-dice-wrapper::after {
+  /*an empty element*/
+  content: "";
+  /*position is absolute for the element*/
+  position: absolute;
+  /*stretch the with of the screen*/
+  inset: 0;
+  /*make sure the click roll works inside the heade sec too*/
+  pointer-events: none;
+  /*setting up the background grid*/
+  background-image:
+/*this is the horizontal lines pattern*/
+    linear-gradient(rgba(0, 255, 100, 0.03) 1px, transparent 1px),
+    /*this is the vertical lines pattern*/
+    linear-gradient(90deg, rgba(0, 255, 100, 0.03) 1px, transparent 1px);
+  /*each grid cell sizes*/
+  background-size: 40px 40px;
+  /*put it in the last behind everything*/
+  z-index: 0;
+}
+
+/*setting Threejs canvas positioning*/
+canvas {
+  /*display is blocked to avoid extra space*/
+  display: block;
+  /*position is relative to stay in the wrapper*/
+  position: relative;
+  /*sticks to the top end*/
+  top: 0;
+  /*sticks to the left end*/
+  left: 0;
+  /*just above the grid but below the scanlines*/
+  z-index: 1;
+  /*change curser to cross (+)*/
+  cursor: crosshair;
+}
+
+/*header sec of the dice - sec*/
+#header-sec {
+  /*position is absolute so it stays in the dice box*/
+  position: absolute;
+  /*sticks to the top end by*/
+  top: 20px;
+  /*sticks to the left end by*/
+  left: 20px;
+  /*sticks to the right end by*/
+  right: 20px;
+  /*setting height for the header sec*/
+  height: 48px;
+  /*just above the grid and canvas but below the scanlines*/
+  z-index: 100;
+  /*header sec set to horizontal layout*/
+  display: flex;
+  /*aligning everything to the center*/
+  align-items: center;
+  /*setting padding for the header sec*/
+  padding: 0 24px;
+  /*color for the header sec background*/
+  background: var(--glass-bg);
+  /*styling and color for the header sec border*/
+  border: 1px solid var(--glass-bdr);
+  /*setting up the border radius*/
+  border-radius: 3px;
+  /*adding blur filter to the header sec*/
+  backdrop-filter: blur(12px);
+  /*setting gap for the header sec*/
+  gap: 20px;
+  /*make sure the click roll works inside the header sec too*/
+  pointer-events: none;
+  /*font for the header sec*/
+  font-family: "Orbitron", monospace;
+}
+
+/*selecting styling and colors for the header sec tags*/
+.header-tag {
+  /*setting up font size for the header tags*/
+  font-size: 0.65rem;
+  /*setting spacing between letters*/
+  letter-spacing: 0.2em;
+  /*color for the header sec tags*/
+  color: var(--text-dim);
+  /*turning everything into uppercase*/
+  text-transform: uppercase;
+}
+
+/*selecting styling and colors for the header values*/
+.header-val {
+  /*setting up font size for the header sec values*/
+  font-size: 0.85rem;
+  /*color for the header sec values*/
+  color: var(--cyan);
+  /*setting spacing between letters*/
+  letter-spacing: 0.05em;
+}
+
+/*selecting styling and colors for the header separations*/
+.header-sep {
+  /*setting up width for the header sec separators*/
+  width: 1px;
+  /*setting up height for the header sec separators*/
+  height: 24px;
+  /*setting up the background for the header sec separators*/
+  background: var(--glass-bdr);
+}
+
+/*the pulse dont for showing player online/offline*/
+.pulse-dot {
+  /*setting up width for the header sec dot*/
+  width: 8px;
+  /*setting up height for the header sec dot*/
+  height: 8px;
+  /*setting up the border radius for the header sec dot*/
+  border-radius: 50%;
+  /*color for the header sec dot*/
+  background: var(--cyan);
+  /*setting up gradiant for the header sec dot*/
+  box-shadow: 0 0 12px var(--cyan);
+  /*adding up the pulse animation*/
+  animation: pulse 1.5s ease-in-out infinite;
+  /*setting up right margin for the header sec dot*/
+  margin-right: 4px;
+}
+
+/*setting up the blinking pulse animation*/
+@keyframes pulse {
+  /*make sure the start frame and the end frame, the opacity is 1 with the scale 1*/
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  /*inbetween frame should have less opacity and smaller scale to give the breathing effect*/
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+}
+
+/*result-box*/
+#result-box {
+  /*position is absolute relative to the wrapper*/
+  position: absolute;
+  /*sticks to the top end by*/
+  bottom: 40px;
+  /*sticks to the left end by*/
+  left: 50%;
+  transform: translateX(-50%);
+  /*just above everything but below the scanlines*/
+  z-index: 200;
+  /*adding background color for the result box*/
+  background: rgba(10, 20, 15, 0.9);
+  /*adding border color for the result box*/
+  border: 1px solid var(--cyan);
+  /*setting the border radius for the result box*/
+  border-radius: 3px;
+  /*setting the padding for the result box*/
+  padding: 10px 24px;
+  /*align everything in the center*/
+  text-align: center;
+  /*visibility is set to disable*/
+  opacity: 0;
+  /*adds smooth fade in/out*/
+  transition: opacity 0.3s ease;
+  /*make sure the click roll works inside the result box too*/
+  pointer-events: none;
+  /*adding blur filter to the result box*/
+  backdrop-filter: blur(16px);
+  /*adding sahdow for the result box*/
+  box-shadow:
+    0 0 40px rgba(0, 255, 100, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/*showing up result box*/
+#result-box.show {
+  /*visibility is set to enable*/
+  opacity: 1;
+}
+
+/*selecting styling and colors for the result labels*/
+.result-label {
+  /*setting up font size for the result box labels*/
+  font-size: 0.7rem;
+  /*spacing between the letters for the result box labels*/
+  letter-spacing: 0.3em;
+  /*setting up color for the result box labels*/
+  color: var(--text-dim);
+  /*turning everything into uppercase*/
+  text-transform: uppercase;
+  /*setting up bottom margin for the result box labels*/
+  margin-bottom: 8px;
+}
+
+/*selecting styling and colors for the result values*/
+.result-val {
+  /*setting up font for the result box values*/
+  font-family: "Orbitron", monospace;
+  /*setting up font size for the result box values*/
+  font-size: 2.5rem;
+  /*setting up font weight for the result box values*/
+  font-weight: 900;
+  /*setting up font color for the result box values*/
+  color: var(--cyan);
+  /*setting up line height for the result box values*/
+  line-height: 1;
+  /*adding text shadows for the result box values*/
+  text-shadow:
+    0 0 20px var(--cyan),
+    0 0 40px rgba(0, 255, 100, 0.4);
+}
+
+/* Fix for result box layout */
+#result-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+}
+
+/* Wrap calculation label styling - BIGGER */
+#wrap-calc-label {
+  font-size: 14px !important;
+  letter-spacing: 0.15em !important;
+  margin-top: 8px !important;
+  margin-bottom: 4px !important;
+  opacity: 1 !important;
+  color: #bf40ff !important;
+  display: block !important;
+  visibility: visible !important;
+  text-transform: uppercase;
+  font-family: "Share Tech Mono", monospace;
+  border-top: 1px solid #bf40ff66;
+  padding-top: 8px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+
+/*setting up hint position and styling*/
+#hint {
+  /*position is absolute relative to the wrapper*/
+  position: absolute;
+  /*sticks to the bottom end by*/
+  bottom: 24px;
+  /*sticks to the left end by*/
+  left: 28px;
+  /*just above everything but below the scanlines*/
+  z-index: 100;
+  /*setting up font size for the hint*/
+  font-size: 0.9rem;
+  /*spacing between the letters for the hint*/
+  letter-spacing: 0.2em;
+  /*setting up font color for the hint*/
+  color: var(--text-dim);
+  /*converting into uppercase*/
+  text-transform: uppercase;
+  /*adding up the flicker animation*/
+  animation: flicker 2s ease-in-out infinite;
+  /*setting up font for the hint*/
+  font-family: "Share Tech Mono", monospace;
+}
+
+/* setting up flicker animation for the hint */
+@keyframes flicker {
+  /*make sure the start frame and the end frame, the opacity is 0.5*/
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  /*inbetween frame should have less opacity to give the flickering effect */
+  50% {
+    opacity: 1;
+  }
+}

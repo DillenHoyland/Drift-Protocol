@@ -1,0 +1,9 @@
+@use '../utilities/colours' as *;
+
+.navIcons, .navbar-icon {
+    opacity: 0.8;
+    &:hover {
+        opacity: 1;
+        filter: drop-shadow(1px 1px 4px $dp-secondary-2);
+    }
+}

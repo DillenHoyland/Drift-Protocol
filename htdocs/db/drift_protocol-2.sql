@@ -1,0 +1,293 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 10, 2026 at 01:37 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `drift_protocol`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bonuses`
+--
+
+CREATE TABLE `bonuses` (
+  `bonus_id` int(11) NOT NULL,
+  `session_id` int(11) NOT NULL,
+  `option_id` int(11) NOT NULL,
+  `bonus` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `options`
+--
+
+CREATE TABLE `options` (
+  `option_id` int(11) NOT NULL,
+  `state_id` int(11) NOT NULL,
+  `opt_requirement` varchar(255) NOT NULL,
+  `opt_text` varchar(255) NOT NULL,
+  `opt_check_type` varchar(255) DEFAULT NULL,
+  `opt_success_dc` int(11) DEFAULT NULL,
+  `opt_partial_dc` int(11) DEFAULT NULL,
+  `opt_selection_next_id` int(11) DEFAULT NULL,
+  `opt_selection_change` varchar(255) DEFAULT NULL,
+  `opt_success_next_id` int(11) DEFAULT NULL,
+  `opt_success_change` varchar(255) DEFAULT NULL,
+  `opt_partial_next_id` int(11) DEFAULT NULL,
+  `opt_partial_change` varchar(255) DEFAULT NULL,
+  `opt_failure_next_id` int(11) DEFAULT NULL,
+  `opt_failure_change` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `options`
+--
+
+INSERT INTO `options` (`option_id`, `state_id`, `opt_requirement`, `opt_text`, `opt_check_type`, `opt_success_dc`, `opt_partial_dc`, `opt_selection_next_id`, `opt_selection_change`, `opt_success_next_id`, `opt_success_change`, `opt_partial_next_id`, `opt_partial_change`, `opt_failure_next_id`, `opt_failure_change`) VALUES
+(1, 1, '{\"stats\": null}', 'Begin Analysis', NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 2, '{\"stats\": null}', 'Review historical system data', 'ModelConfidence', 14, 10, NULL, NULL, 3, '{\"stats\": [{\"stat\": \"ModelConfidence\", \"change\": 2}, {\"stat\": \"Stability\", \"change\": 1}], \"option_bonuses\": null}', 4, '{\"stats\":[{\"stat\":\"ModelConfidence\", \"change\":1},{\"stat\":\"Stability\",\"change\":-1}],\"option_bonuses\":null}', 5, '{\"stats\":[{\"stat\":\"ModelConfidence\", \"change\":-2},{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}'),
+(3, 2, '{\"stats\": null}', 'Consult on-site engineers', 'Trust', 14, 10, NULL, NULL, 3, '{\"stats\": [{\"stat\": \"Trust\", \"change\": 2}, {\"stat\": \"Stability\", \"change\": 1}],\"option_bonuses\": [{\"option_id\": 4, \"change\":2}]}', 4, '{\"stats\":[{\"stat\":\"Trust\", \"change\":1}],\"option_bonuses\":null}', 5, '{\"stats\":[{\"stat\":\"Trust\", \"change\":-1},{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}'),
+(4, 2, '{\"stats\": null}', 'Run a predictive simulation', 'ModelConfidence', 16, 11, NULL, NULL, 3, '{\"stats\":[{\"stat\":\"ModelConfidence\", \"change\":2},{\"stat\":\"Risk\",\"change\":-1}],\"option_bonuses\": null}', 4, '{\"stats\":[{\"stat\":\"ModelConfidence\", \"change\":1},{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}', 5, '{\"stats\":[{\"stat\":\"ModelConfidence\", \"change\":-1},{\"stat\":\"Risk\",\"change\":2}],\"option_bonuses\": [{\"option_id\": 8, \"change\":-2}]}'),
+(5, 3, '{\"stats\": null}', 'Continue', NULL, NULL, NULL, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 4, '{\"stats\": null}', 'Continue', NULL, NULL, NULL, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 5, '{\"stats\": null}', 'Continue', NULL, NULL, NULL, 6, '{\"stats\":[{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}', NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 6, '{\"stats\": null}', 'Delegate communication to human leadership', 'Trust', 14, 10, NULL, NULL, 7, '{\"stats\":[{\"stat\":\"Trust\", \"change\":2},{\"stat\":\"Stability\",\"change\":1}],\"option_bonuses\":null}', 8, '{\"stats\":[{\"stat\":\"Trust\", \"change\":1}],\"option_bonuses\":null}', 9, '{\"stats\":[{\"stat\":\"Trust\", \"change\":-2},{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}'),
+(9, 6, '{\"stats\": null}', 'Released  controlled, simplified updates', 'Stability', 14, 10, NULL, NULL, 7, '{\"stats\":[{\"stat\":\"Stability\", \"change\":2},{\"stat\":\"Trust\",\"change\":1}],\"option_bonuses\":null}', 8, '{\"stats\":[{\"stat\":\"Stability\", \"change\":1}],\"option_bonuses\":null}', 9, '{\"stats\":[{\"stat\":\"Trust\", \"change\":-1},{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}'),
+(10, 6, '{\"stats\": null}', 'Share full system projections with the crew', 'Risk', 15, 10, NULL, NULL, 7, '{\"stats\":[{\"stat\":\"Trust\", \"change\":2},{\"stat\":\"Risk\",\"change\":-1}],\"option_bonuses\": [{\"option_id\": 9, \"change\":2}]}', 8, '{\"stats\":[{\"stat\":\"Trust\", \"change\":1},{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}', 9, '{\"stats\":[{\"stat\":\"Trust\", \"change\":-2},{\"stat\":\"Risk\",\"change\":2}],\"option_bonuses\":null}'),
+(11, 7, '{\"stats\": null}', 'Continue', NULL, NULL, NULL, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 8, '{\"stats\": null}', 'Continue', NULL, NULL, NULL, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(13, 9, '{\"stats\": null}', 'Continue', NULL, NULL, NULL, 10, '{\"stats\":[{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}', NULL, NULL, NULL, NULL, NULL, NULL),
+(14, 10, '{\"stats\": null}', 'Distribute resources evenly', 'Trust', 14, 10, NULL, NULL, 11, '{\"stats\":[{\"stat\":\"Trust\", \"change\":2},{\"stat\":\"Stability\",\"change\":1}],\"option_bonuses\":null}', 12, '{\"stats\":[{\"stat\":\"Trust\", \"change\":1}],\"option_bonuses\":null}', 13, '{\"stats\":[{\"stat\":\"Stability\", \"change\":-2},{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}'),
+(15, 10, '{\"stats\": null}', 'Maximise efficiency', 'ModelConfidence', 15, 11, NULL, NULL, 11, '{\"stats\":[{\"stat\":\"ModelConfidence\", \"change\":2},{\"stat\":\"Risk\",\"change\":-1}],\"option_bonuses\":null}', 12, '{\"stats\":[{\"stat\":\"ModelConfidence\", \"change\":1},{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}', 13, '{\"stats\":[{\"stat\":\"ModelConfidence\", \"change\":-2},{\"stat\":\"Risk\",\"change\":2}],\"option_bonuses\":null}'),
+(16, 10, '{\"stats\": null}', 'Prioritise system stability', 'Stability', 14, 10, NULL, NULL, 11, '{\"stats\":[{\"stat\":\"Stability\", \"change\":2},{\"stat\":\"Risk\",\"change\":-1}],\"option_bonuses\":null}', 12, '{\"stats\":[{\"stat\":\"Stability\", \"change\":1}],\"option_bonuses\":null}', 13, '{\"stats\":[{\"stat\":\"Stability\", \"change\":-2},{\"stat\":\"Risk\",\"change\":1}],\"option_bonuses\":null}'),
+(17, 11, '{\"stats\":[{\"stat\":\"Stability\",\"num\":2,\"type\":\"above\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 14, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(18, 11, '{\"stats\":[{\"stat\":\"Trust\",\"num\":0,\"type\":\"below\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 15, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(19, 11, '{\"stats\":[{\"stat\":\"Stability\",\"num\":0,\"type\":\"below\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(20, 11, '{\"stats\":[{\"stat\":\"ModelConfidence\",\"num\":-2,\"type\":\"below\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 17, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(21, 11, '{\"stats\":[{\"stat\":\"Risk\",\"num\":2,\"type\":\"Above\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 18, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(22, 12, '{\"stats\":[{\"stat\":\"Stability\",\"num\":2,\"type\":\"above\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 14, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(23, 12, '{\"stats\":[{\"stat\":\"Trust\",\"num\":0,\"type\":\"below\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 15, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(24, 12, '{\"stats\":[{\"stat\":\"Stability\",\"num\":0,\"type\":\"below\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(25, 12, '{\"stats\":[{\"stat\":\"ModelConfidence\",\"num\":-2,\"type\":\"below\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 17, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(26, 12, '{\"stats\":[{\"stat\":\"Risk\",\"num\":2,\"type\":\"Above\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 18, '{\"stats\": null, \"option_bonuses\": null}', NULL, NULL, NULL, NULL, NULL, NULL),
+(27, 13, '{\"stats\":[{\"stat\":\"Stability\",\"num\":2,\"type\":\"above\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 14, '{\"stats\": null, \"option_bonuses\": null}', NULL, NULL, NULL, NULL, NULL, NULL),
+(28, 13, '{\"stats\":[{\"stat\":\"Trust\",\"num\":0,\"type\":\"below\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 15, '{\"stats\": null, \"option_bonuses\": null}', NULL, NULL, NULL, NULL, NULL, NULL),
+(29, 13, '{\"stats\":[{\"stat\":\"Stability\",\"num\":0,\"type\":\"below\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 16, '{\"stats\": null, \"option_bonuses\": null}', NULL, NULL, NULL, NULL, NULL, NULL),
+(30, 13, '{\"stats\":[{\"stat\":\"ModelConfidence\",\"num\":-2,\"type\":\"below\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 17, '{\"stats\": null, \"option_bonuses\": null}', NULL, NULL, NULL, NULL, NULL, NULL),
+(31, 13, '{\"stats\":[{\"stat\":\"Risk\",\"num\":2,\"type\":\"Above\"}]}', 'Finalise Outcome', NULL, NULL, NULL, 18, '{\"stats\": null, \"option_bonuses\": null}', NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `session_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `current_state_id` int(11) NOT NULL,
+  `risk` int(11) NOT NULL,
+  `model_confidence` int(11) NOT NULL,
+  `trust` int(11) NOT NULL,
+  `stability` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`session_id`, `user_id`, `current_state_id`, `risk`, `model_confidence`, `trust`, `stability`) VALUES
+(1, 1, 1, 0, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `states`
+--
+
+CREATE TABLE `states` (
+  `state_id` int(11) NOT NULL,
+  `narr_title` varchar(255) NOT NULL,
+  `narr_text_high_risk` text NOT NULL,
+  `narr_text_mid_risk` text NOT NULL,
+  `narr_text_low_risk` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `states`
+--
+
+INSERT INTO `states` (`state_id`, `narr_title`, `narr_text_high_risk`, `narr_text_mid_risk`, `narr_text_low_risk`) VALUES
+(1, 'System Initialisation', 'SYSTEM INITIALISING…\r\nYou are an Outcomes Analyst assigned to Orbital Habitat Evalon.\r\nYour role is to review incoming data and provide recommendations during periods of uncertainty.\r\nYou will not act directly. Your function is just to analyse, predict, and advise.\r\nThe decisions you choose will influence crew response, system stability, and long-term outcomes.\r\nThere are unfortunately no guaranteed solutions, only probabilities.', 'SYSTEM INITIALISING…\r\nYou are an Outcomes Analyst assigned to Orbital Habitat Evalon.\r\nYour role is to review incoming data and provide recommendations during periods of uncertainty.\r\nYou will not act directly. Your function is just to analyse, predict, and advise.\r\nThe decisions you choose will influence crew response, system stability, and long-term outcomes.\r\nThere are unfortunately no guaranteed solutions, only probabilities.', 'SYSTEM INITIALISING…\r\nYou are an Outcomes Analyst assigned to Orbital Habitat Evalon.\r\nYour role is to review incoming data and provide recommendations during periods of uncertainty.\r\nYou will not act directly. Your function is just to analyse, predict, and advise.\r\nThe decisions you choose will influence crew response, system stability, and long-term outcomes.\r\nThere are unfortunately no guaranteed solutions, only probabilities.'),
+(2, 'Signal Instability', 'SYSTEM UPDATE…\r\nCurrent status: Nominal, with irregularities highlighted.\r\nA growing condition, labelled Phase Drift, is currently affecting multiple systems.\r\nInitial projections are incomplete; analysis required.                    Sensor data highlights inconsistent fluctuations in environmental systems.\r\nThe source of the anomaly is currently unclear.\r\nAn analysis method must be chosen to interpret clearly the data available.', 'SYSTEM UPDATE…\r\nCurrent status: Nominal, with irregularities highlighted.\r\nA growing condition, labelled Phase Drift, is currently affecting multiple systems.\r\nInitial projections are incomplete; analysis required.                    Sensor data highlights inconsistent fluctuations in environmental systems.\r\nThe source of the anomaly is currently unclear.\r\nAn analysis method must be chosen to interpret clearly the data available.', 'SYSTEM UPDATE…\r\nCurrent status: Nominal, with irregularities highlighted.\r\nA growing condition, labelled Phase Drift, is currently affecting multiple systems.\r\nInitial projections are incomplete; analysis required.                    Sensor data highlights inconsistent fluctuations in environmental systems.\r\nThe source of the anomaly is currently unclear.\r\nAn analysis method must be chosen to interpret clearly the data available.'),
+(3, 'Success', 'Your analysis produces a consistent and clear interpretation of the anomaly. Patterns have begun to emerge, allowing for precise projections.\r\nSystem confidence increases (+2 Model Confidence and +1 Stability).', 'Your analysis produces a consistent and clear interpretation of the anomaly. Patterns have begun to emerge, allowing for precise projections.\r\nSystem confidence increases (+2 Model Confidence and +1 Stability).', 'Your analysis produces a consistent and clear interpretation of the anomaly. Patterns have begun to emerge, allowing for precise projections.\r\nSystem confidence increases (+2 Model Confidence and +1 Stability).'),
+(4, 'Partial', 'Your analysis reveals some useful insights, but inconsistencies remain visible. Certain variables do not align with projected patterns.\r\nProjections remain uncertain (+1 Model Confidence and -1 Stability).', 'Your analysis reveals some useful insights, but inconsistencies remain visible. Certain variables do not align with projected patterns.\r\nProjections remain uncertain (+1 Model Confidence and -1 Stability).', 'Your analysis reveals some useful insights, but inconsistencies remain visible. Certain variables do not align with projected patterns.\r\nProjections remain uncertain (+1 Model Confidence and -1 Stability).'),
+(5, 'Failure', 'Your analysis produces incomplete or conflicting results. Key data points cannot be verified, and projections begin to diverge.\r\nSystem uncertainty increases (-2 Model Confidence and +1 Risk Index).', 'Your analysis produces incomplete or conflicting results. Key data points cannot be verified, and projections begin to diverge.\r\nSystem uncertainty increases (-2 Model Confidence and +1 Risk Index).', 'Your analysis produces incomplete or conflicting results. Key data points cannot be verified, and projections begin to diverge.'),
+(6, 'Human Variable', 'UPDATE: CREW STATUS ALERT!\r\nReports indicate concern rising amongst human habitat personnel.\r\nThe lack of transparent information relating to Phase Drift is affecting cooperation and morale.\r\nSocial stability may begin to impact system performance.\r\nA response strategy is required.', 'UPDATE: CREW STATUS ALERT!\r\nReports indicate growing uncertainty and unrest amongst human habitat personnel.\r\nThe lack of transparent information relating to Phase Drift is increasing tension and reducing cooperation.\r\nSocial stability is now impacting system performance.\r\nA response strategy is required.', 'UPDATE: CREW STATUS ALERT!\r\nReports indicate breakdown in coordination and widespread anxiety amongst human habitat personnel.\r\nThe lack of transparent information relating to Phase Drift is disrupting operations and causing distrust.\r\nSocial stability is significantly degrading system performance.\r\nA response strategy is required.'),
+(7, 'Success', 'Your approach stabilises communication across the habitat. Crew responses have become more coordinates, and overall confidence has improved.\r\nOperational cohesion increases (+2 Trust).', 'Your approach stabilises communication across the habitat. Crew responses have become more coordinates, and overall confidence has improved.\r\nOperational cohesion increases (+2 Trust).', 'Your approach stabilises communication across the habitat. Crew responses have become more coordinates, and overall confidence has improved.\r\nOperational cohesion increases (+2 Trust).'),
+(8, 'Partial', 'Your approach produces conflicting results. Some crew members react positively, whilst others remain uncertain.\r\nStability improves slightly, but concerns persist (+1 Trust and +1 Risk Index).', 'Your approach produces conflicting results. Some crew members react positively, whilst others remain uncertain.\r\nStability improves slightly, but concerns persist (+1 Trust and +1 Risk Index).', 'Your approach produces conflicting results. Some crew members react positively, whilst others remain uncertain.\r\nStability improves slightly, but concerns persist (+1 Trust and +1 Risk Index).'),
+(9, 'Failure', 'Your approach leads to distrust and confusion amongst the crew. Human coordination weakens, and communications breaks down in key areas.\r\nSocial instability increases (-2 Trust and +1 Risk Index).', 'Your approach leads to distrust and confusion amongst the crew. Human coordination weakens, and communications breaks down in key areas.\r\nSocial instability increases (-2 Trust and +1 Risk Index).', 'Your approach leads to distrust and confusion amongst the crew. Human coordination weakens, and communications breaks down in key areas.\r\nSocial instability increases (-2 Trust and +1 Risk Index).'),
+(10, 'Critical Threshold', 'CRITICAL ALERT! RESEARCH THRESHOLD REACHED\r\nEnergy reserves are approaching minimum operational levels.\r\nPhase Drift persists in effecting system efficiency.\r\nA recommendation is imperative to determine resource management.\r\nThe chosen decision will significantly influence the habitat’s outcome.', 'CRITICAL ALERT! RESEARCH THRESHOLD REACHED\r\nEnergy reserves are nearing critical limits.\r\nPhase Drift is significantly reducing system efficiency.\r\nAn immediate recommendation is required to stabilise management of resources.\r\nThe chosen decision will critically influence the habitat’s outcome.', 'CRITICAL ALERT! RESEARCH THRESHOLD REACHED\r\nEnergy reserves are at critical levels and continuing to decline.\r\nPhase Drift is severely compromising system functionality.\r\nAn urgent recommendation is necessary to prevent system failure.\r\nThe chosen decision will determine whether the habitat stabilises or continues to degrade.'),
+(11, 'Success', 'Your chosen recommended approach is implemented successfully. Systems response as predicted, and operational conditions improve beyond expected parameters.\r\nThe habitat stabilises under your guidance (+2 Stability and +1 Model Confidence).', 'Your chosen recommended approach is implemented successfully. Systems response as predicted, and operational conditions improve beyond expected parameters.\r\nThe habitat stabilises under your guidance (+2 Stability and +1 Model Confidence).', 'Your chosen recommended approach is implemented successfully. Systems response as predicted, and operational conditions improve beyond expected parameters.\r\nThe habitat stabilises under your guidance (+2 Stability and +1 Model Confidence).'),
+(12, 'Partial', 'Your chosen recommended approach is implemented with minor limitations. Certain systems have improved, but others have not responded as predicted.\r\nThe situation remains manageable, but uncertain (+1 Stability, -1 Trust, and +1 Risk Index).', 'Your chosen recommended approach is implemented with minor limitations. Certain systems have improved, but others have not responded as predicted.\r\nThe situation remains manageable, but uncertain (+1 Stability, -1 Trust, and +1 Risk Index).', 'Your chosen recommended approach is implemented with minor limitations. Certain systems have improved, but others have not responded as predicted.\r\nThe situation remains manageable, but uncertain (+1 Stability, -1 Trust, and +1 Risk Index).'),
+(13, 'Failure', 'Your chosen recommended approach does not produce the intended outcome. System performance declines, and instability increases across multiple areas.\r\nThe habitat enters a critical state (-Stability, -1 Trust, -1 Model Confidence, and +1 Risk Index).', 'Your chosen recommended approach does not produce the intended outcome. System performance declines, and instability increases across multiple areas.\r\nThe habitat enters a critical state (-Stability, -1 Trust, -1 Model Confidence, and +1 Risk Index).', 'Your chosen recommended approach does not produce the intended outcome. System performance declines, and instability increases across multiple areas.\r\nThe habitat enters a critical state (-Stability, -1 Trust, -1 Model Confidence, and +1 Risk Index).'),
+(14, 'Managed Stability', 'FINAL STATUS: STABLE\r\nThe habitat has stabilised successfully following your recommendations.\r\nAlthough some systems may not be operating at peak efficiency, conditions remain sustainable for the long-term.\r\nThe crew has adapted to the new normal, and therefore operations continue.\r\nYour analysis is recorded as reliable and effective.\r\nThe company thanks you for your contribution.', 'FINAL STATUS: STABLE\r\nThe habitat has stabilised successfully following your recommendations.\r\nAlthough some systems may not be operating at peak efficiency, conditions remain sustainable for the long-term.\r\nThe crew has adapted to the new normal, and therefore operations continue.\r\nYour analysis is recorded as reliable and effective.\r\nThe company thanks you for your contribution.', 'FINAL STATUS: STABLE\r\nThe habitat has stabilised successfully following your recommendations.\r\nAlthough some systems may not be operating at peak efficiency, conditions remain sustainable for the long-term.\r\nThe crew has adapted to the new normal, and therefore operations continue.\r\nYour analysis is recorded as reliable and effective.\r\nThe company thanks you for your contribution.'),
+(15, 'Stable but Resented', 'FINAL STATUS: STABLE (But low trust)\r\nAchieved system stability, but confidence in current leadership declines over time.\r\nCrew members have expressed dissatisfaction with how your decisions have been made.\r\nOperations continue as expected, but projections dictate weakening cooperation over time.\r\nYour recommendations are effective but not supported.\r\nThe company will consider habitat enforcement.', 'FINAL STATUS: STABLE (But low trust)\r\nAchieved system stability, but confidence in current leadership declines over time.\r\nCrew members have expressed dissatisfaction with how your decisions have been made.\r\nOperations continue as expected, but projections dictate weakening cooperation over time.\r\nYour recommendations are effective but not supported.\r\nThe company will consider habitat enforcement.', 'FINAL STATUS: STABLE (But low trust)\r\nAchieved system stability, but confidence in current leadership declines over time.\r\nCrew members have expressed dissatisfaction with how your decisions have been made.\r\nOperations continue as expected, but projections dictate weakening cooperation over time.\r\nYour recommendations are effective but not supported.\r\nThe company will consider habitat enforcement.'),
+(16, 'United but Fragile', 'FINAL STATUS: FRAGILE\r\nThe crew remains cooperative and unified despite ongoing instability.\r\nSystems persist in their fluctuation, and long-term projections remain unclear.\r\nA crew collective effort is prioritised over system reliability for maintaining habitat survival.\r\nYou have been provided with a warning.\r\nDo not fail the company.', 'FINAL STATUS: FRAGILE\r\nThe crew remains cooperative and unified despite ongoing instability.\r\nSystems persist in their fluctuation, and long-term projections remain unclear.\r\nA crew collective effort is prioritised over system reliability for maintaining habitat survival.\r\nYou have been provided with a warning.\r\nDo not fail the company.', 'FINAL STATUS: FRAGILE\r\nThe crew remains cooperative and unified despite ongoing instability.\r\nSystems persist in their fluctuation, and long-term projections remain unclear.\r\nA crew collective effort is prioritised over system reliability for maintaining habitat survival.\r\nYou have been provided with a warning.\r\nDo not fail the company.'),
+(17, 'Miscalculated Recovery', 'FINAL STATUS: PARTIAL FAILURE\r\nPost-analysis reveals inaccuracies in system projections.\r\nSystem recovery is slow, with significant failures in certain sectors.\r\nThe habitat maintains operation at reduced capacity.\r\nYour analysis will be thoroughly reviewed for errors.\r\nThere is a likelihood the company will request your resignation.', 'FINAL STATUS: PARTIAL FAILURE\r\nPost-analysis reveals inaccuracies in system projections.\r\nSystem recovery is slow, with significant failures in certain sectors.\r\nThe habitat maintains operation at reduced capacity.\r\nYour analysis will be thoroughly reviewed for errors.\r\nThere is a likelihood the company will request your resignation.', 'FINAL STATUS: PARTIAL FAILURE\r\nPost-analysis reveals inaccuracies in system projections.\r\nSystem recovery is slow, with significant failures in certain sectors.\r\nThe habitat maintains operation at reduced capacity.\r\nYour analysis will be thoroughly reviewed for errors.\r\nThere is a likelihood the company will request your resignation.'),
+(18, 'Volatile Confrontation', 'FINAL STATUS: UNSTABLE\r\nThe anomaly has not been resolved. \r\nSystem instability persists across the habitat, requiring continuous intervention, though parts of the habitat have lost contact.\r\nEmergency protocols remain active for the foreseeable future.\r\nYour role is terminated, and the company will process your replacement upon deletion.  ', 'FINAL STATUS: UNSTABLE\r\nThe anomaly has not been resolved. \r\nSystem instability persists across the habitat, requiring continuous intervention, though parts of the habitat have lost contact. Emergency protocols remain active for the foreseeable future.Your role is terminated, and the company will process your replacement upon deletion.  ', 'FINAL STATUS: UNSTABLE\r\nThe anomaly has not been resolved. \r\nSystem instability persists across the habitat, requiring continuous intervention, though parts of the habitat have lost contact.\r\nEmergency protocols remain active for the foreseeable future.\r\nYour role is terminated, and the company will process your replacement upon deletion.  ');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `pass` varchar(255) NOT NULL,
+  `admin` int(1) UNSIGNED NOT NULL DEFAULT 0,
+  `active` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `email` varchar(60) NOT NULL,
+  `img_url` varchar(200) NOT NULL DEFAULT 'img/users/no-image.png',
+  `reg_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `username`, `pass`, `admin`, `active`, `email`, `img_url`, `reg_date`) VALUES
+(1, 'Henry', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 1, 1, 'test1@localhost', 'img/users/1/avatar1.png', '2022-08-15 20:34:00'),
+(2, 'User 2', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 0, 1, 'test2@localhost', 'img/users/2/avatar2.png', '2022-08-15 22:56:04'),
+(3, 'User 3', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 0, 1, 'test3@localhost', 'img/users/3/avatar3.png', '2023-05-19 23:07:22');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `bonuses`
+--
+ALTER TABLE `bonuses`
+  ADD PRIMARY KEY (`bonus_id`),
+  ADD KEY `session_id` (`session_id`),
+  ADD KEY `option_id` (`option_id`);
+
+--
+-- Indexes for table `options`
+--
+ALTER TABLE `options`
+  ADD PRIMARY KEY (`option_id`),
+  ADD KEY `state_id` (`state_id`),
+  ADD KEY `opt_selection_next_id` (`opt_selection_next_id`),
+  ADD KEY `opt_success_next_id` (`opt_success_next_id`),
+  ADD KEY `opt_partial_next_id` (`opt_partial_next_id`),
+  ADD KEY `opt_failure_next_id` (`opt_failure_next_id`);
+
+--
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`session_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `current_state_id` (`current_state_id`);
+
+--
+-- Indexes for table `states`
+--
+ALTER TABLE `states`
+  ADD PRIMARY KEY (`state_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `bonuses`
+--
+ALTER TABLE `bonuses`
+  MODIFY `bonus_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `options`
+--
+ALTER TABLE `options`
+  MODIFY `option_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- AUTO_INCREMENT for table `sessions`
+--
+ALTER TABLE `sessions`
+  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `states`
+--
+ALTER TABLE `states`
+  MODIFY `state_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bonuses`
+--
+ALTER TABLE `bonuses`
+  ADD CONSTRAINT `bonuses_ibfk_1` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`session_id`),
+  ADD CONSTRAINT `bonuses_ibfk_2` FOREIGN KEY (`option_id`) REFERENCES `options` (`option_id`);
+
+--
+-- Constraints for table `options`
+--
+ALTER TABLE `options`
+  ADD CONSTRAINT `options_ibfk_1` FOREIGN KEY (`state_id`) REFERENCES `states` (`state_id`),
+  ADD CONSTRAINT `options_ibfk_2` FOREIGN KEY (`opt_selection_next_id`) REFERENCES `states` (`state_id`),
+  ADD CONSTRAINT `options_ibfk_3` FOREIGN KEY (`opt_success_next_id`) REFERENCES `states` (`state_id`),
+  ADD CONSTRAINT `options_ibfk_4` FOREIGN KEY (`opt_partial_next_id`) REFERENCES `states` (`state_id`),
+  ADD CONSTRAINT `options_ibfk_5` FOREIGN KEY (`opt_failure_next_id`) REFERENCES `states` (`state_id`);
+
+--
+-- Constraints for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `sessions_ibfk_2` FOREIGN KEY (`current_state_id`) REFERENCES `states` (`state_id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

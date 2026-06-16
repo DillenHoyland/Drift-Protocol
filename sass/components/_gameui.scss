@@ -1,0 +1,33 @@
+@use '../utilities/fonts' as *;
+@use '../utilities/colours' as *;
+
+#dialog-container {
+    margin-top: 2rem;
+    p {
+    font-family: Inter;
+    }
+}
+
+#opts-container {
+    text-align: center;
+    ::before {
+        content: '\2192\0020';
+        font-weight: 700;
+    }
+    > .opt-box {
+    background-color: $dp-optbg;
+    margin-bottom: .5rem;
+    text-transform: uppercase;
+    height: 4rem;
+        .info {
+            font-size: 0.8rem;
+            ::before {
+                content: none;
+            }
+        }
+    }
+}
+
+.dp-btn {
+    width: 230px;
+}

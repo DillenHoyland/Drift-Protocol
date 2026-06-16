@@ -1,0 +1,328 @@
+@font-face {
+  font-family: Inter;
+  src: url('./fonts/InterVariable.ttf');
+}
+
+@font-face {
+  font-family: Orbitron;
+  src: url('./fonts/Orbitron-Regular.ttf');
+}
+
+:root {
+  --primary: #00FF7C;
+  --secondary: #00D9FF;
+  --tertiary: #8439ED;
+  --alert: #FF006F;
+  --dark: #0A0D26;
+  --card: #1A203B;
+  --primaryRGB: 0, 255, 124;
+  --secondaryRGB: 0, 217, 255;
+  --tertiaryRGB: 132, 57, 237;
+  --alertRGB: 255, 0, 111;
+  --darkRGB: 10, 13, 38;
+  --cardRGB: 26, 32, 59;
+}
+html {
+	height: 100%;
+}
+body {
+	background-color: var(--dark);
+	min-height: 100%;
+	display:flex;
+	flex-direction: column;
+	animation:fading 4s;
+}
+/* Default class */
+.def {
+	font-family: Inter;
+	font-size: large;
+}
+/* Accessibility class (read mode) */
+.acc {
+	font-family: Lexend;
+	font-size: x-large;
+}
+.acc h1.h1 { font-size: 26px; }
+.acc h2.h2 { font-size: 26px; }
+.acc h3.h3 { font-size: 26px; }
+
+.navbar {
+	display: flex;
+	padding: .4rem;
+	margin: 6px 8px;
+	border-bottom: 1px solid var(--card);
+}
+.footer {
+	padding: .4rem 0;
+	margin-bottom: .4rem;
+	margin-top: auto;
+	border-top: 1px solid var(--card);
+}
+a { text-decoration: none; }
+.logo, .titleText {
+	color: var(--primary);
+	font-weight: 700;
+	font-family: Orbitron;
+	text-decoration: none;
+    text-transform: uppercase;
+}
+.footer > .titleText { 
+	font-weight: 500; 
+	font-size: .8rem;}
+.logo {
+	opacity: 0.9;
+	font-weight: 900;
+	padding: 0 .4rem;
+	border-radius: .2rem;
+	color: var(--dark);
+	background: linear-gradient(to right, rgba(0, 255, 124, 0.95), rgba(0, 217, 255, 0.95));
+}
+
+.white {
+	margin-left: .5rem;
+	color: white;
+}
+
+/* The Modal (background) */
+.modal {
+	display: none; 
+	/* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	animation:fading 1s;
+  }
+
+  .wrapper {
+	position: relative;
+  }
+
+
+/* Tooltip */
+#tooltipDiv {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	text-align: left;
+	margin: 7px;
+	width: 98%;
+	font-family: Inter;
+	background-color: rgba(var(--darkRGB), 0.8); /* equivalent of tertiary but with 0.2 opacity applied */
+	color: var(--dark);
+	border: 1px solid rgba(var(--darkRGB), 0.6);
+	display: none; /* initial - toggled on on-hover of tooltip icons*/
+  }
+  .tooltip {
+	font-family: monospace;
+	font-size: .9rem;
+	list-style-type: square;
+	color: var(--primary);
+  }
+  .tooltipBtn {
+	color: #aaaaaa;
+	float: right;
+	margin-right: .6rem;
+	font-size: 28px;
+	font-weight: bold;
+  }
+
+  .tooltipBtn:hover,
+  .tooltipBtn:focus {
+	color: #FFF;
+	text-decoration: none;
+	cursor: pointer;
+  }
+
+/* Typing effect on tooltip */
+/* Source: https://css-tricks.com/snippets/css/typewriter-effect/ */
+.typing {
+	overflow: hidden; /* Ensures the content is not revealed until the animation */
+	border-right: .15em solid var(--primary); /* The typwriter cursor */
+	white-space: nowrap; /* Keeps the content on a single line */
+	/* margin: 0 auto; Gives that scrolling effect as the typing happens */
+	letter-spacing: .15em; /* Adjust as needed */
+	animation: 
+	  typing 3.5s steps(40, end),
+	  blink-caret .75s step-end infinite;
+  }
+.blink {
+	animation: blink .75s step-end infinite;
+}
+/* The typing effect */
+@keyframes typing {
+	from { width: 0 }
+	to { width: 100% }
+}
+  
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+	from, to { border-color: transparent }
+	50% { border-color: rgba(var(--primaryRGB), 0.2); }
+}
+@keyframes blink {
+	from, to { color: transparent }
+	50% { color: var(--secondary); }
+}
+
+@keyframes fading {
+	0% { opacity:0 }
+	100% { opacity:1 }
+}
+
+#RESET_STATE {
+	margin-right: 0.5rem;
+	margin-left:auto;
+}
+
+#RESET_STATE > button {
+	font-family: Orbitron;
+	color: var(--primary);
+	background-color: var(--dark);
+	border: 1px solid rgba(0, 217, 255, 0.1); /* equivalent of secondary but with 0.1 opacity applied */
+	font-size: 1rem;
+	cursor: pointer;
+	opacity: .9;
+}
+
+.logo:hover, #RESET_STATE > button:hover { 
+	opacity: 1;
+	box-shadow: 0 0 10px 0 rgba(var(--primaryRGB), .6);
+}
+.option:hover {
+	opacity: 1;
+	box-shadow: 0 0 10px 0 rgba(var(--tertiaryRGB), .6);
+}
+
+#narr {
+	background-color: var(--card);
+	font-family: Inter;
+	color: lightgrey;
+	padding: 0.5rem 1rem;
+}
+
+#narrTitle {
+	font-size: 1rem;
+	font-weight: 700;
+}
+
+#narrText {
+	font-size: 0.9rem;
+	white-space: pre-wrap;
+}
+
+
+
+#info {
+	width: 100%;
+	border-spacing: 0.4rem;
+}
+
+.option {
+	font-family: Inter;
+	background-color: rgba(132, 57, 237, 0.3); /* equivalent of tertiary but with 0.3 opacity applied */
+	color: var(--secondary);
+	border: 1px solid var(--tertiary);
+	height: 5.6rem;
+	text-align: center;
+	cursor: pointer;
+	opacity: .8;
+}
+
+.option-text {
+	margin-left: 0.6rem;
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+.option-text::before {
+	content: "-> ";
+	font-family: Inter;
+	font-weight: 700;
+}
+
+.option-check-text {
+	font-family: Inter;
+	font-size: 0.8rem;
+	color: lightgrey;
+	margin-left: 1.1rem;
+}
+
+.title {
+	font-family: Orbitron;
+	color: var(--primary);
+}
+
+.sidebar {
+	font-family: Inter;
+	text-align: center;
+	width: 35%;
+}
+
+#statblkSidebar {
+	width: 100%;
+	height: 100%;
+	padding: 0 1rem 0 1rem;
+	border-spacing: 0.5rem;
+}
+
+#statblkSidebar .title {
+	font-size: 1.2rem;
+}
+
+.statblk {
+	background-color: var(--card);
+	padding: 0.6rem;
+	border: 1px solid rgba(0, 217, 255, 0.1); /* equivalent of secondary but with 0.1 opacity applied */
+	width: 45%;
+	height: 50%;
+}
+
+.statblkTitle {
+	text-align: left;
+	color: grey;
+	font-size: 0.8rem;
+	padding-bottom: 0.3rem;
+}
+
+.statblkStat {
+	text-align: center;
+	color: var(--secondary);
+	font-weight: 700;
+}
+
+.baseroll-chart {
+	display: none;
+}
+
+
+.stat-update-text-success {
+	font-size: 0.9rem;
+	font-style: italic;
+	color: var(--secondary);
+}
+
+.stat-update-text-failure {
+	font-size: 0.9rem;
+	font-style: italic;
+	color: var(--alert);
+}
+
+#errorBar {
+	display: none;
+	background-color: rgba(var(--alertRGB), .6);
+	color: white;
+	font-size: 1.5rem;
+	font-family: Inter;
+	text-align: center;
+}
+#errorBarText {
+	padding: 0.5rem 0.1rem 0.5rem 0.1rem;
+}

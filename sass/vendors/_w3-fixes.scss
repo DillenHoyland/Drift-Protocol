@@ -1,0 +1,15 @@
+.w3-dropdown-hover:first-child {
+    background-color: transparent;
+}
+
+.w3-dropdown-content {
+    left: auto !important;
+    right: 1px;
+    z-index:100;
+    min-width: 100px;
+    background-color: transparent;
+}
+
+.w3-bar-item {
+    width: 100px;
+}

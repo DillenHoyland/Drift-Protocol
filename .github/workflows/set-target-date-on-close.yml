@@ -1,0 +1,126 @@
+name: Set Target date on Done
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  set-target-date:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Target date if empty
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.BRANCHFLOW_PAT }}
+          script: |
+            const orgLogin = context.repo.owner;
+            const projectNumber = 1;
+
+            const targetDateFieldName = "Target date"; // must match Project field name exactly
+            const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+
+            const issueNodeId = context.payload.issue.node_id;
+
+            // 1) Load project fields to find Target date field
+            const projectQuery = `
+              query($org: String!, $number: Int!) {
+                organization(login: $org) {
+                  projectV2(number: $number) {
+                    id
+                    fields(first: 50) {
+                      nodes {
+                        ... on ProjectV2FieldCommon {
+                          id
+                          name
+                          dataType
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const projectResp = await github.graphql(projectQuery, { org: orgLogin, number: projectNumber });
+            const project = projectResp.organization?.projectV2;
+
+            if (!project) {
+              core.setFailed(`Project not found: org=${orgLogin} number=${projectNumber}`);
+              return;
+            }
+
+            const targetDateField = project.fields.nodes.find(
+              f => f?.name === targetDateFieldName && f?.dataType === "DATE"
+            );
+
+            if (!targetDateField) {
+              core.setFailed(`DATE field not found: "${targetDateFieldName}"`);
+              return;
+            }
+
+            // 2) Find this issue's project item and current Target date value
+            const itemQuery = `
+              query($id: ID!) {
+                node(id: $id) {
+                  ... on Issue {
+                    projectItems(first: 50) {
+                      nodes {
+                        id
+                        project { ... on ProjectV2 { number } }
+                        fieldValues(first: 50) {
+                          nodes {
+                            ... on ProjectV2ItemFieldDateValue {
+                              date
+                              field { ... on ProjectV2FieldCommon { name } }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+
+            const itemResp = await github.graphql(itemQuery, { id: issueNodeId });
+            const projectItem = itemResp.node?.projectItems?.nodes?.find(n => n.project?.number === projectNumber);
+
+            if (!projectItem) {
+              console.log(`Issue not in Project #${projectNumber}. Nothing to do.`);
+              return;
+            }
+
+            const existingTarget = (projectItem.fieldValues?.nodes || [])
+              .find(v => v?.field?.name === targetDateFieldName)?.date;
+
+            if (existingTarget) {
+              console.log(`Target date already set (${existingTarget}), leaving it.`);
+              return;
+            }
+
+            // 3) Set Target date
+            const updateMutation = `
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $value: ProjectV2FieldValue!) {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: $projectId,
+                    itemId: $itemId,
+                    fieldId: $fieldId,
+                    value: $value
+                  }
+                ) { projectV2Item { id } }
+              }
+            `;
+
+            await github.graphql(updateMutation, {
+              projectId: project.id,
+              itemId: projectItem.id,
+              fieldId: targetDateField.id,
+              value: { date: today },
+            });
+
+            console.log(`📅 Set Target date to ${today}`);

@@ -1,0 +1,23 @@
+@use 'colours' as *;
+
+@mixin turquoise-gradient {
+    background: linear-gradient(to right, rgba($dp-primary, 0.95), rgba($dp-secondary, 0.95));
+}
+
+@mixin grey-gradient {
+    background: linear-gradient(to right, rgba($bs-light, 0.95), rgba($w3-light-grey, 0.95));
+}
+
+// absolute center 
+@mixin absoluteCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+// Transition Property
+@mixin transitionProperty {
+    transition-duration: 1000ms;
+    transition-property: all;
+}

@@ -1,0 +1,40 @@
+@use '../utilities/colours' as *;
+@use '../utilities/fonts' as *;
+
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	min-width: 200px;
+    // background-color: $dp-dark;
+	display: flex;
+	flex-direction: column;
+}
+
+#footer {
+	margin-top: auto;
+}
+
+// Default Font
+.def {
+	font-family: Inter;
+	font-size: large;
+}
+// Accessibility font
+.acc {
+	font-family: Lexend;
+	font-size: x-large;
+	h1.h1 { font-size: 26px; }
+	h2.h2 { font-size: 26px; }
+	h3.h3 { font-size: 26px; }
+}
+
+.grid-bg {
+	// Background grid Source: https://github.com/bansal/pattern.css
+	background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(to right, currentColor 1px, transparent 1px);
+	background-size: 25px 25px;
+}
+
+.cpoint { cursor: pointer; }

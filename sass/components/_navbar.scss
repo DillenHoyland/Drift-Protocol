@@ -1,0 +1,63 @@
+@use '../utilities/colours' as *;
+@use '../utilities/fonts' as *;
+@use '../utilities/mixins' as *;
+
+.navbar-icon {
+    font-family: Orbitron;
+    color: $dp-dark;
+    padding: 0.4rem;
+    @include turquoise-gradient; 
+}
+
+li.nav-item .logo { 
+    font-family: Orbitron;
+    text-transform: uppercase;
+}
+
+.navDropdown {
+    left: auto;
+    right: 0;
+    max-width: calc(100vw - 2px);
+    width: 160px;
+    // > * {
+    //     opacity: .8;
+    //     &:hover {
+    //         opacity: 1;
+    //     }
+    // }
+}
+
+.userNav.navDropdown {
+    left: auto;
+    right: 0;
+    width: 130px !important;
+    a {
+        text-decoration: none;
+    }
+}
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem .5rem;
+    margin-bottom: 0;
+    > * {
+        opacity: .8;
+        cursor: pointer;
+        &:hover {
+            opacity: 1;
+        }
+    }
+    // &:hover {
+    //     background-color: transparent;
+    // }
+    .form-check-input {
+        order: 2;
+        margin-right: 0.5rem;
+    }
+    .form-check-label {
+        order: 1;
+        margin: 0;
+    }
+}
