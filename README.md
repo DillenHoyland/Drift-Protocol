@@ -1,40 +1,20 @@
-# Welcome to the repository for Drift Protocol, an exciting new game to demonstrate statistical concepts for higher education
-The structure of the repo explained:<br>
-<pre>
+# Drift Protocol 🎲
 
-├───.github                     // GITHUB FILES
-│   ├───ISSUE_TEMPLATES         // Boilerplate issue types
-│   └───workflows               // Automated workflow yaml files  
+A text-adventure roleplaying game (RPG) built as a group project, designed to teach National 5 Mathematics statistics concepts through interactive gameplay.
 
-├───assets                      // Project assets that don't necessarily need to be in the server files, eg fonts
-│   ├───Inter-4.1
-│   └───Orbitron
+## Overview
 
-├───docs                        // Documentation, technical and academic
+Drift Protocol uses graphical probability distribution functions tied to each in-game "event" to reflect the underlying statistical mechanics of gameplay. Every event presents the player with narrative choices alongside visual representations of concepts such as probability theory, standard deviation, and comparison of datasets and summary statistics — supporting learning through repeated, engaging exposure rather than direct instruction.
 
-├───htdocs                      // Everything 'uploadable' to the server
-│   ├───includes                // Modular PHP includes files, eg header, navbar
-│   ├───prototype               // Backup of prototype 
-│   ├───scripts                 // Javascript files, functions, resources
-│   └───styles                  // Stylesheets, fonts or other style assets such as images
-│       └───fonts
 
-├───node_modules                // Bootstrap Files, not needed unless compiling SASS stylesheets. Ignored by Git.
+## Technologies
 
-..
+- PHP
+- MySQL
+- HTML/CSS (Bootstrap-based templating)
 
-└───sass                        // SASS/SCSS stylesheets (compiled to htdocs/styles/style.css)
-    ├───components              // Styles for components such as navbars or modals
-    ├───utilities               // Utilities such as theme colours, breakpoints
-    └───vendors                 // Third party assets, eg Bootstrap, w3.css
-</pre>
-<br>
-To run SASS compiler, use:<br>
-> sass sass:htdocs/styles<br><br>
-Or to run it automatically when any SASS file is saved:<br>
-> sass --watch sass/style.scss htdocs/styes/style.css<br><br>
-If compiling for the server, use the compressed (minified) variation:<br>
-> sass --watch sass/style.scss htdocs/styes/style.css --style=compressed<br>
+## Live Demo
 
+🔗 [https://dillen-hoyland.page.gd/drift_protocol.php](https://dillen-hoyland.page.gd/drift_protocol.php)
 
 
